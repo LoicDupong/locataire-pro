@@ -58,7 +58,8 @@ export function generateChecklist(profile: Profile): ChecklistItem[] {
     if (hasGuarantor) guarantorItems = toItems(GUARANTOR_EMPLOYEE_ITEMS)
   } else if (situation === 'student') {
     applicantItems = toItems(STUDENT_ITEMS)
-    guarantorItems = toItems(GUARANTOR_EMPLOYEE_ITEMS) // students always have guarantor
+    // Guarantor is mandatory for students — ProfileForm enforces hasGuarantor=true for this case
+    guarantorItems = toItems(GUARANTOR_EMPLOYEE_ITEMS)
   } else {
     applicantItems = toItems(SELF_EMPLOYED_ITEMS)
     if (hasGuarantor) guarantorItems = toItems(GUARANTOR_SELF_EMPLOYED_ITEMS)
