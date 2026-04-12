@@ -5,21 +5,34 @@
 }
 
 .label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--app-muted);
+
+  strong {
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+  }
+}
+
+.count {
+  color: #60a5fa;
+  font-weight: 600;
+  font-size: 0.75rem;
 }
 
 .track {
-  height: 8px;
-  background: #e0e0e0;
-  border-radius: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .fill {
   height: 100%;
-  background: #2563eb;
-  border-radius: 4px;
-  transition: width 0.3s ease;
+  background: var(--primary);
+  border-radius: 2px;
+  transition: width 0.4s ease;
 }
