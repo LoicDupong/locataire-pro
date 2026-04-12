@@ -60,7 +60,7 @@ export default function ChecklistItem({ item, sessionId }: Props) {
   }
 
   function getButtonLabel() {
-    if (isMulti) return uploadCount === 0 ? 'Ajouter' : 'Ajouter'
+    if (isMulti) return 'Ajouter'
     return item.status === 'uploaded' ? 'Remplacer' : 'Ajouter'
   }
 
