@@ -8,24 +8,33 @@ type Props = {
 }
 
 export default function ExportButton({ canExport }: Props) {
-  const { sessionId, checklist, reset } = useDossierStore()
+  const { sessionId, checklist, profile, reset } = useDossierStore()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError]     = useState<string | null>(null)
 
   async function handleExport() {
-    if (!canExport || !sessionId) return
+    if (!canExport || !sessionId || !profile) return
     setLoading(true)
     setError(null)
 
     try {
       const uploadedKeys = checklist
         .filter((i) => i.status === 'uploaded')
-        .map((i) => i.key)
+        .flatMap((i) => {
+          if ((i.maxFiles ?? 1) > 1) {
+            return (i.fileNames ?? []).map((_, idx) => `${i.key}_${idx}`)
+          }
+          return [i.key]
+        })
 
       const res = await fetch('/api/export', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, docKeys: uploadedKeys }),
+        body: JSON.stringify({
+          sessionId,
+          docKeys: uploadedKeys,
+          profile: { name: profile.name, email: profile.email, phone: profile.phone },
+        }),
       })
 
       if (!res.ok) {
@@ -34,14 +43,13 @@ export default function ExportButton({ canExport }: Props) {
       }
 
       const blob = await res.blob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
+      const url  = URL.createObjectURL(blob)
+      const a    = document.createElement('a')
+      a.href     = url
       a.download = 'dossier-location.pdf'
       a.click()
       URL.revokeObjectURL(url)
 
-      // Auto-clear store after successful export
       reset()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur inconnue')
@@ -50,21 +58,33 @@ export default function ExportButton({ canExport }: Props) {
     }
   }
 
+  const requiredMissing = checklist.filter(
+    (i) => i.required && i.status !== 'uploaded'
+  ).length
+
+  const btnClass = loading
+    ? styles.loading
+    : canExport
+      ? styles.active
+      : styles.disabled
+
   return (
     <div className={styles.wrapper}>
-      <button
-        className={styles.button}
-        onClick={handleExport}
-        disabled={!canExport || loading}
-      >
-        {loading ? 'Export en cours...' : 'Télécharger mon dossier PDF'}
-      </button>
-      {!canExport && (
-        <p className={styles.hint}>
-          Téléversez tous les documents requis pour activer l&apos;export.
-        </p>
-      )}
-      {error && <p className={styles.error}>{error}</p>}
+      <div className={styles.card}>
+        <button
+          className={`${styles.button} ${btnClass}`}
+          onClick={handleExport}
+          disabled={!canExport || loading}
+        >
+          {loading ? 'Export en cours...' : 'Télécharger mon dossier PDF'}
+        </button>
+        {!canExport && !loading && (
+          <p className={styles.hint}>
+            {requiredMissing} document{requiredMissing > 1 ? 's' : ''} requis manquant{requiredMissing > 1 ? 's' : ''}
+          </p>
+        )}
+        {error && <p className={styles.error}>{error}</p>}
+      </div>
     </div>
   )
 }
