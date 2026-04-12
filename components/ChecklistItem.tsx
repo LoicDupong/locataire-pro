@@ -16,6 +16,11 @@ export default function ChecklistItem({ item, sessionId }: Props) {
   const { markUploaded } = useDossierStore()
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const maxFiles = item.maxFiles ?? 1
+  const uploadCount = item.fileNames?.length ?? 0
+  const isMulti = maxFiles > 1
+  const atMax = uploadCount >= maxFiles
+
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
@@ -29,9 +34,11 @@ export default function ChecklistItem({ item, sessionId }: Props) {
       return
     }
 
+    const docKey = isMulti ? `${item.key}_${uploadCount}` : item.key
+
     const formData = new FormData()
     formData.append('sessionId', sessionId)
-    formData.append('docKey', item.key)
+    formData.append('docKey', docKey)
     formData.append('file', file)
 
     const res = await fetch('/api/upload', { method: 'POST', body: formData })
@@ -41,27 +48,46 @@ export default function ChecklistItem({ item, sessionId }: Props) {
     }
 
     markUploaded(item.key, file, file.name)
-    // Reset input so same file can be re-uploaded
     if (inputRef.current) inputRef.current.value = ''
   }
 
-  const statusLabel = {
-    pending: 'En attente',
-    uploaded: 'Téléversé',
-    optional: 'Optionnel',
-  }[item.status]
+  function getBadgeLabel() {
+    if (isMulti) {
+      if (uploadCount === 0) return item.required ? 'En attente' : 'Optionnel'
+      return `${uploadCount}/${maxFiles} fichier${uploadCount > 1 ? 's' : ''}`
+    }
+    return { pending: 'En attente', uploaded: 'Ajouté', optional: 'Optionnel' }[item.status]
+  }
+
+  function getButtonLabel() {
+    if (isMulti) return uploadCount === 0 ? 'Ajouter' : 'Ajouter'
+    return item.status === 'uploaded' ? 'Remplacer' : 'Ajouter'
+  }
+
+  const statusClass = isMulti && uploadCount > 0 ? 'uploaded' : item.status
+  const isChecked   = statusClass === 'uploaded'
 
   return (
-    <div className={`${styles.item} ${styles[item.status]}`}>
+    <div className={`${styles.item} ${styles[statusClass]}`}>
+      <div className={`${styles.checkbox} ${isChecked ? styles.checked : ''}`}>
+        {isChecked && '✓'}
+      </div>
       <div className={styles.info}>
         <span className={styles.label}>{item.label}</span>
-        {item.fileName && (
-          <span className={styles.fileName}>{item.fileName}</span>
+        {isMulti && item.fileNames && item.fileNames.length > 0 && (
+          <div className={styles.fileList}>
+            {item.fileNames.map((name, i) => (
+              <span key={i} className={styles.fileName}>{name}</span>
+            ))}
+          </div>
+        )}
+        {!isMulti && item.fileNames?.[0] && (
+          <span className={styles.fileName}>{item.fileNames[0]}</span>
         )}
       </div>
       <div className={styles.actions}>
-        <span className={`${styles.badge} ${styles[`badge_${item.status}`]}`}>
-          {statusLabel}
+        <span className={`${styles.badge} ${styles[`badge_${statusClass}`]}`}>
+          {getBadgeLabel()}
         </span>
         <input
           ref={inputRef}
@@ -70,12 +96,14 @@ export default function ChecklistItem({ item, sessionId }: Props) {
           style={{ display: 'none' }}
           onChange={handleFileChange}
         />
-        <button
-          className={styles.uploadBtn}
-          onClick={() => inputRef.current?.click()}
-        >
-          {item.status === 'uploaded' ? 'Remplacer' : 'Téléverser'}
-        </button>
+        {!atMax && (
+          <button
+            className={styles.uploadBtn}
+            onClick={() => inputRef.current?.click()}
+          >
+            {getButtonLabel()}
+          </button>
+        )}
       </div>
     </div>
   )
