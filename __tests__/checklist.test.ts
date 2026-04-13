@@ -2,152 +2,338 @@ import { describe, it, expect } from 'vitest'
 import { generateChecklist, canExport } from '../lib/checklist'
 import type { Profile, ChecklistItem } from '../types/dossier'
 
-// ─── generateChecklist ───────────────────────────────────────────────────────
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-describe('generateChecklist — employee, no guarantor', () => {
-  const profile: Profile = { name: 'Alice', situation: 'employee', hasGuarantor: false }
-  const items = generateChecklist(profile)
+function makeProfile(overrides: Partial<Profile>): Profile {
+  return {
+    name: 'Test',
+    country: 'BE',
+    situation: 'employee',
+    hasGuarantor: false,
+    ...overrides,
+  }
+}
 
-  it('returns 6 items', () => {
-    expect(items).toHaveLength(6)
-  })
+function makeItem(key: string, required: boolean, forGuarantor: boolean, status: ChecklistItem['status']): ChecklistItem {
+  return { key, label: key, required, forGuarantor, status }
+}
 
-  it('all items are required and not forGuarantor', () => {
-    expect(items.every(i => i.required && !i.forGuarantor)).toBe(true)
-  })
+// ─── BE — Salarié ────────────────────────────────────────────────────────────
 
-  it('includes identity', () => {
-    expect(items.some(i => i.key === 'identity')).toBe(true)
-  })
-
-  it('includes payslips', () => {
-    expect(items.some(i => i.key === 'payslips')).toBe(true)
-  })
-
-  it('includes work-contract', () => {
-    expect(items.some(i => i.key === 'work-contract')).toBe(true)
-  })
-
-  it('includes tax-notice', () => {
-    expect(items.some(i => i.key === 'tax-notice')).toBe(true)
-  })
-
-  it('includes rib', () => {
-    expect(items.some(i => i.key === 'rib')).toBe(true)
-  })
-
-  it('includes domicile', () => {
-    expect(items.some(i => i.key === 'domicile')).toBe(true)
-  })
-
-  it('all items start as pending', () => {
-    expect(items.every(i => i.status === 'pending')).toBe(true)
-  })
-})
-
-describe('generateChecklist — employee, with guarantor', () => {
-  const profile: Profile = { name: 'Alice', situation: 'employee', hasGuarantor: true }
-  const items = generateChecklist(profile)
-  const guarantorItems = items.filter(i => i.forGuarantor)
-  const applicantItems = items.filter(i => !i.forGuarantor)
-
-  it('returns 6 applicant + 5 guarantor = 11 items', () => {
-    expect(items).toHaveLength(11)
-  })
-
-  it('has 5 guarantor items', () => {
-    expect(guarantorItems).toHaveLength(5)
-  })
-
-  it('guarantor items have prefixed keys', () => {
-    expect(guarantorItems.every(i => i.key.startsWith('guarantor-'))).toBe(true)
-  })
-
-  it('applicant items are not forGuarantor', () => {
-    expect(applicantItems.every(i => !i.forGuarantor)).toBe(true)
-  })
-
-  it('includes guarantor-identity', () => {
-    expect(guarantorItems.some(i => i.key === 'guarantor-identity')).toBe(true)
-  })
-
-  it('all guarantor items are required', () => {
-    expect(guarantorItems.every(i => i.required)).toBe(true)
-  })
-})
-
-describe('generateChecklist — student (always has guarantor)', () => {
-  const profile: Profile = { name: 'Bob', situation: 'student', hasGuarantor: true }
-  const items = generateChecklist(profile)
+describe('BE — Salarié', () => {
+  const items = generateChecklist(makeProfile({ country: 'BE', situation: 'employee', hasGuarantor: false }))
   const required = items.filter(i => i.required && !i.forGuarantor)
   const optional = items.filter(i => !i.required && !i.forGuarantor)
-  const guarantorItems = items.filter(i => i.forGuarantor)
+  const guarantor = items.filter(i => i.forGuarantor)
 
-  it('has 5 required applicant + 1 optional + 5 guarantor = 11 items', () => {
-    expect(items).toHaveLength(11)
+  it('returns 7 items total', () => {
+    expect(items).toHaveLength(7)
+  })
+
+  it('has 4 required applicant items', () => {
+    expect(required).toHaveLength(4)
+  })
+
+  it('has 3 optional items', () => {
+    expect(optional).toHaveLength(3)
+  })
+
+  it('has no guarantor items', () => {
+    expect(guarantor).toHaveLength(0)
+  })
+
+  it('all required items start as pending', () => {
+    expect(required.every(i => i.status === 'pending')).toBe(true)
+  })
+
+  it('optional items start as optional', () => {
+    expect(optional.every(i => i.status === 'optional')).toBe(true)
+  })
+
+  it('keys are prefixed with be-sal-', () => {
+    expect(items.every(i => i.key.startsWith('be-sal-'))).toBe(true)
+  })
+
+  it('payslips has maxFiles 3', () => {
+    const payslips = items.find(i => i.key === 'be-sal-payslips')
+    expect(payslips?.maxFiles).toBe(3)
+  })
+
+  it('quittances is optional with maxFiles 3', () => {
+    const quittances = items.find(i => i.key === 'be-sal-quittances')
+    expect(quittances?.required).toBe(false)
+    expect(quittances?.maxFiles).toBe(3)
+  })
+
+  it('household is optional', () => {
+    const household = items.find(i => i.key === 'be-sal-household')
+    expect(household?.required).toBe(false)
+  })
+
+  it('has no guarantee item', () => {
+    expect(items.some(i => i.key === 'be-sal-guarantee')).toBe(false)
+  })
+})
+
+// ─── BE — Étudiant ───────────────────────────────────────────────────────────
+
+describe('BE — Étudiant', () => {
+  const items = generateChecklist(makeProfile({ country: 'BE', situation: 'student', hasGuarantor: true }))
+  const applicant = items.filter(i => !i.forGuarantor)
+  const guarantor = items.filter(i => i.forGuarantor)
+  const optional = applicant.filter(i => !i.required)
+
+  it('returns 8 items total (5 applicant + 3 guarantor)', () => {
+    expect(items).toHaveLength(8)
+  })
+
+  it('has 5 applicant items', () => {
+    expect(applicant).toHaveLength(5)
+  })
+
+  it('has 3 guarantor items', () => {
+    expect(guarantor).toHaveLength(3)
   })
 
   it('scholarship is optional', () => {
-    const scholarship = items.find(i => i.key === 'scholarship')
+    const scholarship = items.find(i => i.key === 'be-stu-scholarship')
     expect(scholarship).toBeDefined()
     expect(scholarship?.required).toBe(false)
     expect(scholarship?.status).toBe('optional')
   })
 
-  it('has 5 required applicant items', () => {
-    expect(required).toHaveLength(5)
+  it('has 3 optional applicant items', () => {
+    expect(optional).toHaveLength(3)
   })
 
-  it('has 1 optional applicant item', () => {
-    expect(optional).toHaveLength(1)
+  it('all guarantor items are required', () => {
+    expect(guarantor.every(i => i.required)).toBe(true)
   })
 
-  it('has 5 guarantor items', () => {
-    expect(guarantorItems).toHaveLength(5)
-  })
-})
-
-describe('generateChecklist — self-employed, no guarantor', () => {
-  const profile: Profile = { name: 'Carol', situation: 'self-employed', hasGuarantor: false }
-  const items = generateChecklist(profile)
-
-  it('returns 5 items', () => {
-    expect(items).toHaveLength(5)
+  it('guarantor keys start with be-stu-gua-', () => {
+    expect(guarantor.every(i => i.key.startsWith('be-stu-gua-'))).toBe(true)
   })
 
-  it('includes kbis', () => {
-    expect(items.some(i => i.key === 'kbis')).toBe(true)
-  })
-
-  it('includes accounting', () => {
-    expect(items.some(i => i.key === 'accounting')).toBe(true)
+  it('has no guarantee item', () => {
+    expect(items.some(i => i.key === 'be-stu-guarantee')).toBe(false)
   })
 })
 
-describe('generateChecklist — self-employed, with guarantor', () => {
-  const profile: Profile = { name: 'Carol', situation: 'self-employed', hasGuarantor: true }
-  const items = generateChecklist(profile)
-  const guarantorItems = items.filter(i => i.forGuarantor)
+// ─── BE — Indépendant ────────────────────────────────────────────────────────
 
-  it('has 5 applicant + 3 guarantor = 8 items', () => {
+describe('BE — Indépendant', () => {
+  const items = generateChecklist(makeProfile({ country: 'BE', situation: 'self-employed', hasGuarantor: false }))
+  const guarantor = items.filter(i => i.forGuarantor)
+  const optional = items.filter(i => !i.required)
+
+  it('returns 7 items total', () => {
+    expect(items).toHaveLength(7)
+  })
+
+  it('has no guarantor items', () => {
+    expect(guarantor).toHaveLength(0)
+  })
+
+  it('has 3 optional items', () => {
+    expect(optional).toHaveLength(3)
+  })
+
+  it('includes ONSS item', () => {
+    expect(items.some(i => i.key === 'be-ind-onss')).toBe(true)
+  })
+
+  it('includes BCE item', () => {
+    expect(items.some(i => i.key === 'be-ind-bce')).toBe(true)
+  })
+
+  it('has no guarantee item', () => {
+    expect(items.some(i => i.key === 'be-ind-guarantee')).toBe(false)
+  })
+})
+
+// ─── BE — Sans emploi ────────────────────────────────────────────────────────
+
+describe('BE — Sans emploi', () => {
+  const items = generateChecklist(makeProfile({ country: 'BE', situation: 'unemployed', hasGuarantor: true }))
+  const applicant = items.filter(i => !i.forGuarantor)
+  const guarantor = items.filter(i => i.forGuarantor)
+  const optional = applicant.filter(i => !i.required)
+
+  it('returns 8 items total (5 applicant + 3 guarantor)', () => {
     expect(items).toHaveLength(8)
   })
 
-  it('guarantor has identity, accounting, rib (3 items)', () => {
-    expect(guarantorItems).toHaveLength(3)
-    expect(guarantorItems.some(i => i.key === 'guarantor-identity')).toBe(true)
-    expect(guarantorItems.some(i => i.key === 'guarantor-accounting')).toBe(true)
-    expect(guarantorItems.some(i => i.key === 'guarantor-rib')).toBe(true)
+  it('has 5 applicant items', () => {
+    expect(applicant).toHaveLength(5)
+  })
+
+  it('has 3 guarantor items', () => {
+    expect(guarantor).toHaveLength(3)
+  })
+
+  it('tax is optional for applicant', () => {
+    const tax = items.find(i => i.key === 'be-une-tax')
+    expect(tax).toBeDefined()
+    expect(tax?.required).toBe(false)
+    expect(tax?.status).toBe('optional')
+  })
+
+  it('has 3 optional applicant items', () => {
+    expect(optional).toHaveLength(3)
+  })
+
+  it('all guarantor items are required', () => {
+    expect(guarantor.every(i => i.required)).toBe(true)
+  })
+
+  it('has no guarantee item', () => {
+    expect(items.some(i => i.key === 'be-une-guarantee')).toBe(false)
+  })
+})
+
+// ─── FR — Salarié ────────────────────────────────────────────────────────────
+
+describe('FR — Salarié', () => {
+  const items = generateChecklist(makeProfile({ country: 'FR', situation: 'employee', hasGuarantor: false }))
+  const required = items.filter(i => i.required && !i.forGuarantor)
+  const optional = items.filter(i => !i.required)
+  const guarantor = items.filter(i => i.forGuarantor)
+
+  it('returns 8 items total', () => {
+    expect(items).toHaveLength(8)
+  })
+
+  it('has 6 required applicant items', () => {
+    expect(required).toHaveLength(6)
+  })
+
+  it('has 2 optional items', () => {
+    expect(optional).toHaveLength(2)
+  })
+
+  it('has no guarantor items', () => {
+    expect(guarantor).toHaveLength(0)
+  })
+
+  it('includes RIB', () => {
+    expect(items.some(i => i.key === 'fr-sal-rib')).toBe(true)
+  })
+
+  it('keys are prefixed with fr-sal-', () => {
+    expect(items.every(i => i.key.startsWith('fr-sal-'))).toBe(true)
+  })
+
+  it('quittances is optional with maxFiles 3', () => {
+    const quittances = items.find(i => i.key === 'fr-sal-quittances')
+    expect(quittances?.required).toBe(false)
+    expect(quittances?.maxFiles).toBe(3)
+  })
+})
+
+// ─── FR — Étudiant ───────────────────────────────────────────────────────────
+
+describe('FR — Étudiant', () => {
+  const items = generateChecklist(makeProfile({ country: 'FR', situation: 'student', hasGuarantor: true }))
+  const applicant = items.filter(i => !i.forGuarantor)
+  const guarantor = items.filter(i => i.forGuarantor)
+
+  it('returns 10 items total (7 applicant + 3 guarantor)', () => {
+    expect(items).toHaveLength(10)
+  })
+
+  it('has 7 applicant items', () => {
+    expect(applicant).toHaveLength(7)
+  })
+
+  it('has 3 guarantor items', () => {
+    expect(guarantor).toHaveLength(3)
+  })
+
+  it('scholarship is optional', () => {
+    const scholarship = items.find(i => i.key === 'fr-stu-scholarship')
+    expect(scholarship?.required).toBe(false)
+  })
+
+  it('Visale is optional and not forGuarantor', () => {
+    const visale = items.find(i => i.key === 'fr-stu-visale')
+    expect(visale).toBeDefined()
+    expect(visale?.required).toBe(false)
+    expect(visale?.forGuarantor).toBe(false)
+  })
+
+  it('all guarantor items are required', () => {
+    expect(guarantor.every(i => i.required)).toBe(true)
+  })
+
+  it('quittances is optional with maxFiles 3', () => {
+    const quittances = items.find(i => i.key === 'fr-stu-quittances')
+    expect(quittances?.required).toBe(false)
+    expect(quittances?.maxFiles).toBe(3)
+  })
+})
+
+// ─── FR — Indépendant ────────────────────────────────────────────────────────
+
+describe('FR — Indépendant', () => {
+  const items = generateChecklist(makeProfile({ country: 'FR', situation: 'self-employed', hasGuarantor: false }))
+  const guarantor = items.filter(i => i.forGuarantor)
+
+  it('returns 8 items total', () => {
+    expect(items).toHaveLength(8)
+  })
+
+  it('has no guarantor items', () => {
+    expect(guarantor).toHaveLength(0)
+  })
+
+  it('includes Kbis', () => {
+    expect(items.some(i => i.key === 'fr-ind-kbis')).toBe(true)
+  })
+
+  it('includes accounting', () => {
+    expect(items.some(i => i.key === 'fr-ind-accounting')).toBe(true)
+  })
+})
+
+// ─── FR — Sans emploi ────────────────────────────────────────────────────────
+
+describe('FR — Sans emploi', () => {
+  const items = generateChecklist(makeProfile({ country: 'FR', situation: 'unemployed', hasGuarantor: true }))
+  const applicant = items.filter(i => !i.forGuarantor)
+  const guarantor = items.filter(i => i.forGuarantor)
+
+  it('returns 10 items total (7 applicant + 3 guarantor)', () => {
+    expect(items).toHaveLength(10)
+  })
+
+  it('has 7 applicant items', () => {
+    expect(applicant).toHaveLength(7)
+  })
+
+  it('has 3 guarantor items', () => {
+    expect(guarantor).toHaveLength(3)
+  })
+
+  it('tax is optional', () => {
+    const tax = items.find(i => i.key === 'fr-une-tax')
+    expect(tax?.required).toBe(false)
+  })
+
+  it('Visale is optional and not forGuarantor', () => {
+    const visale = items.find(i => i.key === 'fr-une-visale')
+    expect(visale).toBeDefined()
+    expect(visale?.required).toBe(false)
+    expect(visale?.forGuarantor).toBe(false)
+  })
+
+  it('all guarantor items are required', () => {
+    expect(guarantor.every(i => i.required)).toBe(true)
   })
 })
 
 // ─── canExport ───────────────────────────────────────────────────────────────
 
 describe('canExport', () => {
-  const makeItem = (key: string, required: boolean, forGuarantor: boolean, status: ChecklistItem['status']): ChecklistItem => ({
-    key, label: key, required, forGuarantor, status
-  })
-
   it('returns true when all required applicant items are uploaded, no guarantor', () => {
     const items: ChecklistItem[] = [
       makeItem('identity', true, false, 'uploaded'),
@@ -168,7 +354,7 @@ describe('canExport', () => {
   it('returns false when a required guarantor item is pending and hasGuarantor=true', () => {
     const items: ChecklistItem[] = [
       makeItem('identity', true, false, 'uploaded'),
-      makeItem('guarantor-identity', true, true, 'pending'),
+      makeItem('gua-identity', true, true, 'pending'),
     ]
     expect(canExport(items, true)).toBe(false)
   })
@@ -176,7 +362,7 @@ describe('canExport', () => {
   it('returns true when all required applicant + guarantor items are uploaded', () => {
     const items: ChecklistItem[] = [
       makeItem('identity', true, false, 'uploaded'),
-      makeItem('guarantor-identity', true, true, 'uploaded'),
+      makeItem('gua-identity', true, true, 'uploaded'),
     ]
     expect(canExport(items, true)).toBe(true)
   })
@@ -184,7 +370,7 @@ describe('canExport', () => {
   it('ignores guarantor items when hasGuarantor=false', () => {
     const items: ChecklistItem[] = [
       makeItem('identity', true, false, 'uploaded'),
-      makeItem('guarantor-identity', true, true, 'pending'),
+      makeItem('gua-identity', true, true, 'pending'),
     ]
     expect(canExport(items, false)).toBe(true)
   })

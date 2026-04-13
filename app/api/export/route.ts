@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     sessionId = body.sessionId
     const docKeys: string[] = body.docKeys ?? []
+    const profile: { name?: string; email?: string; phone?: string } = body.profile ?? {}
 
     if (typeof sessionId !== 'string' || !/^[a-f0-9-]{36}$/.test(sessionId)) {
       return NextResponse.json({ error: 'Session invalide' }, { status: 400 })
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Aucun document à exporter' }, { status: 400 })
     }
 
-    const pdfBytes = await mergeToPdf(sessionId, docKeys)
+    const pdfBytes = await mergeToPdf(sessionId, docKeys, profile)
 
     // Delete temp folder after building the PDF bytes
     const dir = path.join(os.tmpdir(), sessionId)

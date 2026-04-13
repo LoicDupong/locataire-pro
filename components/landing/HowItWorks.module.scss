@@ -1,0 +1,99 @@
+.section {
+  padding: 104px 24px;
+  background: var(--bg);
+}
+
+.inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 64px;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.title {
+  font-size: clamp(1.9rem, 3.8vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--fg);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+
+  @media (max-width: 660px) {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.stepTop {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.stepNumber {
+  width: 54px;
+  height: 54px;
+  background: var(--fg);
+  color: #fff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+// Horizontal connector between steps (desktop only)
+.connector {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin: 0 12px;
+
+  @media (max-width: 660px) {
+    display: none;
+  }
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stepTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.stepDesc {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--muted);
+}

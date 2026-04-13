@@ -12,7 +12,7 @@ type PersistedState = {
 }
 
 type FullStore = PersistedState & {
-  uploadedFiles: Record<string, File>
+  uploadedFiles: Record<string, File[]>
   setProfile: (profile: Profile) => void
   setSessionId: (id: string) => void
   setChecklist: (items: ChecklistItem[]) => void
@@ -37,12 +37,26 @@ export const useDossierStore = create<FullStore>()(
       setChecklist: (checklist) => set({ checklist }),
 
       markUploaded: (key, file, fileName) =>
-        set((state) => ({
-          uploadedFiles: { ...state.uploadedFiles, [key]: file },
-          checklist: state.checklist.map((item) =>
-            item.key === key ? { ...item, status: 'uploaded', fileName } : item
-          ),
-        })),
+        set((state) => {
+          const item = state.checklist.find(i => i.key === key)
+          const maxFiles = item?.maxFiles ?? 1
+          const currentFiles = state.uploadedFiles[key] ?? []
+          const currentNames = item?.fileNames ?? []
+
+          const newFiles = maxFiles > 1
+            ? [...currentFiles, file].slice(0, maxFiles)
+            : [file]
+          const newNames = maxFiles > 1
+            ? [...currentNames, fileName].slice(0, maxFiles)
+            : [fileName]
+
+          return {
+            uploadedFiles: { ...state.uploadedFiles, [key]: newFiles },
+            checklist: state.checklist.map(i =>
+              i.key === key ? { ...i, status: 'uploaded', fileNames: newNames } : i
+            ),
+          }
+        }),
 
       reset: () =>
         set({
