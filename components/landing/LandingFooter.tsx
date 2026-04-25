@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import styles from './LandingFooter.module.scss'
 
 export default function LandingFooter() {
@@ -6,9 +7,13 @@ export default function LandingFooter() {
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        <span className={styles.logo}>
-          Locataire<strong>Pro</strong>
-        </span>
+        <Image
+          src="/logo-dark.svg"
+          alt="Locataire Pro"
+          width={180}
+          height={22}
+          className={styles.logo}
+        />
         <p className={styles.copy}>© {year} — Fait pour les locataires 🇧🇪 et 🇫🇷</p>
         <div className={styles.pills}>
           <span>Gratuit</span>
