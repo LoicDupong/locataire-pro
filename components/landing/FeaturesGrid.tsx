@@ -1,3 +1,5 @@
+'use client'
+import { useInView } from '@/hooks/useInView'
 import styles from './FeaturesGrid.module.scss'
 
 const FEATURES = [
@@ -24,9 +26,10 @@ const FEATURES = [
 ]
 
 export default function FeaturesGrid() {
+  const { ref, inView } = useInView()
   return (
-    <section className={styles.section}>
-      <div className={styles.inner}>
+    <section className={`${styles.section}${inView ? ' ' + styles.visible : ''}`}>
+      <div ref={ref} className={styles.inner}>
         <div className={styles.header}>
           <p className={styles.label}>Fonctionnalités</p>
           <h2 className={styles.title}>Tout ce qu&apos;il vous faut.</h2>

@@ -1,3 +1,5 @@
+'use client'
+import { useInView } from '@/hooks/useInView'
 import styles from './ProblemBanner.module.scss'
 
 const PROBLEMS = [
@@ -19,9 +21,10 @@ const PROBLEMS = [
 ]
 
 export default function ProblemBanner() {
+  const { ref, inView } = useInView()
   return (
-    <section className={styles.section}>
-      <div className={styles.inner}>
+    <section className={`${styles.section}${inView ? ' ' + styles.visible : ''}`}>
+      <div ref={ref} className={styles.inner}>
         <p className={styles.label}>Le problème</p>
         <h2 className={styles.title}>Monter un dossier, c&apos;est chiant.</h2>
         <div className={styles.grid}>

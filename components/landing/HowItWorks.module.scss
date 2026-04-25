@@ -1,3 +1,8 @@
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .section {
   padding: 104px 24px;
   background: var(--cream);
@@ -96,4 +101,23 @@
   font-size: 0.9rem;
   line-height: 1.75;
   color: var(--ink-60);
+}
+
+// ── Scroll animations ─────────────────────────────────────────────────────────
+
+.header,
+.step {
+  opacity: 0;
+}
+
+.visible {
+  .header {
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .step {
+    &:nth-child(1) { animation: fadeUp 0.55s ease forwards 0.15s; }
+    &:nth-child(2) { animation: fadeUp 0.55s ease forwards 0.28s; }
+    &:nth-child(3) { animation: fadeUp 0.55s ease forwards 0.41s; }
+  }
 }

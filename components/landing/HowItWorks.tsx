@@ -1,3 +1,5 @@
+'use client'
+import { useInView } from '@/hooks/useInView'
 import styles from './HowItWorks.module.scss'
 
 const STEPS = [
@@ -19,9 +21,10 @@ const STEPS = [
 ]
 
 export default function HowItWorks() {
+  const { ref, inView } = useInView()
   return (
-    <section className={styles.section} id="comment">
-      <div className={styles.inner}>
+    <section className={`${styles.section}${inView ? ' ' + styles.visible : ''}`} id="comment">
+      <div ref={ref} className={styles.inner}>
         <div className={styles.header}>
           <p className={styles.label}>Comment ça marche</p>
           <h2 className={styles.title}>Trois étapes, c&apos;est tout.</h2>
