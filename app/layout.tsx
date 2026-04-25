@@ -1,30 +1,24 @@
 import type { Metadata } from 'next'
-import { Bricolage_Grotesque, Figtree } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.scss'
 
-const bricolage = Bricolage_Grotesque({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  variable: '--font-display',
-  display: 'swap',
-})
-
-const figtree = Figtree({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-body',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-sans',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
   title: 'Locataire Pro',
   description: 'Constituez votre dossier de location en quelques minutes.',
+  icons: { icon: '/favicon.svg' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body className={`${bricolage.variable} ${figtree.variable}`}>{children}</body>
+      <body className={inter.variable}>{children}</body>
     </html>
   )
 }
