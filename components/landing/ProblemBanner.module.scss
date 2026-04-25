@@ -1,6 +1,6 @@
 .section {
-  background: #111827;
-  color: #fff;
+  background: var(--ink);
+  color: var(--cream);
   padding: 96px 24px;
 }
 
@@ -14,7 +14,7 @@
   letter-spacing: 0.13em;
   font-size: 0.72rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--cream-60);
   margin-bottom: 14px;
 }
 
@@ -22,7 +22,7 @@
   font-size: clamp(1.9rem, 3.8vw, 2.9rem);
   font-weight: 800;
   letter-spacing: -0.035em;
-  color: #fff;
+  color: var(--cream);
   margin-bottom: 52px;
   max-width: 600px;
 }
@@ -39,8 +39,8 @@
 }
 
 .item {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--cream-15);
+  border: 1px solid var(--cream-15);
   border-radius: 14px;
   padding: 30px 26px;
   display: flex;
@@ -49,7 +49,7 @@
   transition: border-color 0.2s;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.14);
+    border-color: var(--cream-60);
   }
 }
 
@@ -60,12 +60,12 @@
 .itemTitle {
   font-size: 1rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--cream-90);
   letter-spacing: -0.01em;
 }
 
 .itemDesc {
   font-size: 0.875rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--cream-60);
 }
