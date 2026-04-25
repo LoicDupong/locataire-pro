@@ -5,8 +5,8 @@
 }
 
 .card {
-  background: var(--app-surface);
-  border: 1px solid var(--app-border);
+  background: var(--cream-15);
+  border: 1px solid var(--cream-15);
   border-radius: 14px;
   padding: 24px;
   display: flex;
@@ -24,30 +24,29 @@
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
-  transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
+  transition: opacity 0.15s, transform 0.12s;
   position: relative;
 
   &.active {
-    background: var(--primary);
-    color: #fff;
+    background: var(--sun);
+    color: var(--ink);
 
     &:hover {
-      background: var(--primary-hover);
+      opacity: 0.88;
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(29, 78, 216, 0.4);
     }
   }
 
   &.disabled {
-    background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.2);
-    border: 1px solid var(--app-border);
+    background: var(--cream-15);
+    color: var(--cream-60);
+    border: 1px solid var(--cream-15);
     cursor: not-allowed;
   }
 
   &.loading {
-    background: rgba(29, 78, 216, 0.4);
-    color: rgba(255, 255, 255, 0.5);
+    background: rgba(251, 191, 36, 0.4);
+    color: var(--ink);
     cursor: not-allowed;
 
     &::after {
@@ -55,8 +54,8 @@
       display: inline-block;
       width: 14px;
       height: 14px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-top-color: rgba(255, 255, 255, 0.7);
+      border: 2px solid rgba(28, 25, 23, 0.2);
+      border-top-color: var(--ink);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
       margin-left: 8px;
@@ -71,12 +70,13 @@
 
 .hint {
   font-size: 0.8rem;
-  color: var(--app-muted);
+  color: var(--cream-60);
   text-align: center;
 }
 
 .error {
   font-size: 0.82rem;
-  color: #f87171;
+  color: var(--cream);
   text-align: center;
+  font-weight: 600;
 }
