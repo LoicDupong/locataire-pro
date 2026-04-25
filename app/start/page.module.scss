@@ -1,6 +1,6 @@
 .main {
   min-height: 100vh;
-  background: var(--app-bg);
+  background: var(--ink);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,36 +25,36 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1.5px solid var(--app-border);
-  background: var(--app-surface);
+  border: 1.5px solid var(--cream-15);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
   font-weight: 700;
-  color: var(--app-muted);
+  color: var(--cream-60);
 }
 
 .stepLabel {
   font-size: 0.7rem;
-  color: var(--app-muted);
+  color: var(--cream-60);
   font-weight: 500;
 }
 
 .stepActive .stepCircle {
-  border-color: var(--primary);
-  background: rgba(29, 78, 216, 0.15);
-  color: #fff;
+  border-color: var(--sun);
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--cream);
 }
 
 .stepActive .stepLabel {
-  color: #fff;
+  color: var(--cream);
 }
 
 .stepLine {
   width: 48px;
   height: 1px;
-  background: var(--app-border);
+  background: var(--cream-15);
   margin: 0 8px;
   margin-bottom: 22px;
 }

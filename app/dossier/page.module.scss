@@ -1,13 +1,12 @@
 .main {
   min-height: 100vh;
-  background: var(--app-bg);
+  background: var(--ink);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px 16px 80px;
 }
 
-/* Stepper — identical structure to /start but step 2 active */
 .stepper {
   display: flex;
   align-items: center;
@@ -26,47 +25,46 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1.5px solid var(--app-border);
-  background: var(--app-surface);
+  border: 1.5px solid var(--cream-15);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
   font-weight: 700;
-  color: var(--app-muted);
+  color: var(--cream-60);
 }
 
 .stepLabel {
   font-size: 0.7rem;
-  color: var(--app-muted);
+  color: var(--cream-60);
   font-weight: 500;
 }
 
 .stepActive .stepCircle {
-  border-color: var(--primary);
-  background: rgba(29, 78, 216, 0.15);
-  color: #fff;
+  border-color: var(--sun);
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--cream);
 }
 
 .stepActive .stepLabel {
-  color: #fff;
+  color: var(--cream);
 }
 
 .stepDone .stepCircle {
-  border-color: var(--success-border);
-  background: var(--success-dim);
-  color: var(--success);
+  border-color: var(--sun);
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--sun);
 }
 
 .stepLine {
   width: 48px;
   height: 1px;
-  background: var(--app-border);
+  background: var(--cream-15);
   margin: 0 8px;
   margin-bottom: 22px;
 }
 
-/* Page content */
 .content {
   width: 100%;
   max-width: 640px;
@@ -91,7 +89,7 @@
 .title {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--cream);
   letter-spacing: -0.02em;
 }
 
@@ -99,12 +97,12 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--app-surface);
-  border: 1px solid var(--app-border);
+  background: var(--cream-15);
+  border: 1px solid var(--cream-15);
   border-radius: 100px;
   padding: 3px 10px;
   font-size: 0.75rem;
-  color: var(--app-muted);
+  color: var(--cream-60);
   font-weight: 500;
   width: fit-content;
 }
@@ -112,16 +110,16 @@
 .restart {
   padding: 7px 14px;
   background: transparent;
-  border: 1px solid var(--app-border);
+  border: 1px solid var(--cream-15);
   border-radius: 8px;
   font-size: 0.8rem;
-  color: var(--app-muted);
+  color: var(--cream-60);
   flex-shrink: 0;
   transition: border-color 0.15s, color 0.15s;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.6);
+    border-color: var(--cream-60);
+    color: var(--cream);
   }
 }
 
@@ -132,7 +130,7 @@
 
   p {
     font-size: 0.75rem;
-    color: var(--app-muted);
+    color: var(--cream-60);
     line-height: 1.5;
   }
 }
