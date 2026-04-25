@@ -1,6 +1,6 @@
 .form {
-  background: var(--app-surface);
-  border: 1px solid var(--app-border);
+  background: var(--cream-15);
+  border: 1px solid var(--cream-15);
   border-radius: 16px;
   padding: 32px;
   display: flex;
@@ -12,7 +12,7 @@
 .title {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--cream);
   letter-spacing: -0.02em;
 }
 
@@ -24,7 +24,7 @@
   > label:not(.pill) {
     font-size: 0.78rem;
     font-weight: 600;
-    color: var(--app-muted);
+    color: var(--cream-60);
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
@@ -32,24 +32,24 @@
   input[type='text'],
   input[type='email'],
   input[type='tel'] {
-    background: var(--app-bg);
-    border: 1px solid var(--app-border);
+    background: var(--ink);
+    border: 1.5px solid var(--cream-15);
     border-radius: 8px;
     padding: 11px 14px;
-    color: #fff;
+    color: var(--cream);
     font-size: 0.95rem;
     font-family: inherit;
     width: 100%;
-    transition: border-color 0.15s, box-shadow 0.15s;
+    transition: border-color 0.15s, outline 0.15s;
 
     &::placeholder {
-      color: rgba(255, 255, 255, 0.2);
+      color: var(--cream-60);
     }
 
     &:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.2);
+      outline: 3px solid var(--sun);
+      outline-offset: 2px;
+      border-color: var(--cream-60);
     }
   }
 }
@@ -68,25 +68,25 @@
   justify-content: center;
   gap: 6px;
   padding: 11px 10px;
-  background: var(--app-bg);
-  border: 1.5px solid var(--app-border);
+  background: var(--ink);
+  border: 1.5px solid var(--cream-15);
   border-radius: 10px;
   cursor: pointer;
   font-size: 0.88rem;
   font-weight: 500;
-  color: var(--app-muted);
-  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  color: var(--cream-60);
+  transition: border-color 0.15s, color 0.15s;
   text-align: center;
 
   &:hover {
-    border-color: rgba(96, 165, 250, 0.3);
-    color: rgba(255, 255, 255, 0.6);
+    border-color: var(--cream-60);
+    color: var(--cream);
   }
 
   &Active {
-    border-color: var(--primary) !important;
-    background: rgba(29, 78, 216, 0.12);
-    color: #fff;
+    border-color: var(--sun) !important;
+    background: rgba(251, 191, 36, 0.12);
+    color: var(--cream);
   }
 }
 
@@ -101,21 +101,21 @@
 }
 
 .notice {
-  background: rgba(29, 78, 216, 0.08);
-  border: 1px solid rgba(29, 78, 216, 0.2);
+  background: var(--cream-15);
+  border: 1px solid var(--cream-15);
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 0.82rem;
-  color: #93c5fd;
+  color: var(--cream-60);
 }
 
 .noticeNeutral {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--app-border);
+  background: var(--cream-15);
+  border: 1px solid var(--cream-15);
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 0.82rem;
-  color: var(--app-muted);
+  color: var(--cream-60);
 }
 
 .fadeIn {
@@ -138,17 +138,17 @@
 
 .submit {
   padding: 14px;
-  background: var(--primary);
-  color: #fff;
+  background: var(--sun);
+  color: var(--ink);
   border: none;
   border-radius: 10px;
   font-size: 1rem;
   font-weight: 700;
   width: 100%;
-  transition: background 0.15s, transform 0.12s;
+  transition: opacity 0.15s, transform 0.12s;
 
   &:hover {
-    background: var(--primary-hover);
+    opacity: 0.88;
     transform: translateY(-1px);
   }
 }
