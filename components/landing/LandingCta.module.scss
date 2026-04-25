@@ -1,23 +1,9 @@
 .section {
-  background: var(--dark);
-  color: #fff;
+  background: var(--ink);
+  color: var(--cream);
   padding: 128px 24px;
-
   position: relative;
   overflow: hidden;
-
-  // Ambient glow
-  &::before {
-    content: '';
-    position: absolute;
-    top: -120px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 400px;
-    background: radial-gradient(ellipse, rgba(29, 78, 216, 0.2) 0%, transparent 70%);
-    pointer-events: none;
-  }
 }
 
 .inner {
@@ -37,7 +23,7 @@
   letter-spacing: 0.13em;
   font-size: 0.72rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--sun);
 }
 
 .title {
@@ -45,12 +31,12 @@
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 1.05;
-  color: #fff;
+  color: var(--cream);
 }
 
 .sub {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--cream-60);
 }
 
 .cta {
@@ -58,17 +44,16 @@
   align-items: center;
   gap: 8px;
   padding: 16px 40px;
-  background: var(--primary);
-  color: #fff;
+  background: var(--sun);
+  color: var(--ink);
   border-radius: 10px;
   font-weight: 700;
   font-size: 1.05rem;
   margin-top: 10px;
-  transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
+  transition: opacity 0.15s, transform 0.12s;
 
   &:hover {
-    background: #2563eb;
+    opacity: 0.88;
     transform: translateY(-3px);
-    box-shadow: 0 16px 40px rgba(29, 78, 216, 0.5);
   }
 }
