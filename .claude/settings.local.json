@@ -7,7 +7,8 @@
       "Bash(npm ls:*)",
       "Bash(npm test:*)",
       "Bash(node -e ':*)",
-      "Bash(git show:*)"
+      "Bash(git show:*)",
+      "Bash(grep -r '--include=*.scss' -E '#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}|rgba\\\\\\(29, 78, 216|rgba\\\\\\(96, 165, 250|rgba\\\\\\(255, 255, 255|#60a5fa|#93c5fd|#f87171|var\\\\\\(--primary|var\\\\\\(--app-|var\\\\\\(--success|var\\\\\\(--warning' components/landing/LandingFooter.module.scss components/ProfileForm.module.scss components/Checklist.module.scss components/ChecklistItem.module.scss components/ExportButton.module.scss components/ProgressBar.module.scss app/start/page.module.scss app/dossier/page.module.scss)"
     ]
   }
 }

@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Locataire Pro Launch 16:9</title>
+  </head>
+  <body>
+    <div
+      id="locataire-pro-launch"
+      data-composition-id="locataire-pro-launch"
+      data-start="0"
+      data-duration="24"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section class="clip scene logo-scene" data-start="0" data-duration="4.6" data-track-index="0">
+        <div class="scene-content logo-layout">
+          <div class="logo-lockup intro-logo">
+            <img class="lp-icon" src="assets/app-icon.svg" alt="LP" />
+            <img class="wordmark" src="assets/logo-dark-intro.svg" alt="Locataire Pro" />
+          </div>
+        </div>
+      </section>
+
+      <section class="clip scene scene-one" data-start="4" data-duration="6.8" data-track-index="1">
+        <div class="ambient line line-a"></div>
+        <div class="ambient line line-b"></div>
+        <div class="scene-content intro-layout">
+          <div class="header-logo">
+            <img src="assets/logo-dark-header.svg" alt="Locataire Pro" />
+          </div>
+          <div class="copy-block intro-copy">
+            <p class="eyebrow">Lancement</p>
+            <h1>Le dossier de location, enfin net.</h1>
+            <p class="caption">Un profil, une checklist, un PDF prêt à envoyer.</p>
+          </div>
+          <div class="screen-frame landing-frame">
+            <img class="landing-shot" src="assets/01-landing-wide.png" alt="Nouvelle page d'accueil Locataire Pro" />
+          </div>
+        </div>
+      </section>
+
+      <section class="clip scene scene-two" data-start="9.75" data-duration="5.25" data-track-index="2">
+        <div class="ambient dot dot-a"></div>
+        <div class="scene-content split-layout">
+          <div class="copy-block">
+            <p class="eyebrow">Profil</p>
+            <h2>Répondez une fois.</h2>
+            <p class="caption">Pays, situation, garant. La suite s'adapte automatiquement.</p>
+          </div>
+          <div class="screen-frame app-frame">
+            <img src="assets/02-start-wide.png" alt="Nouveau formulaire de profil Locataire Pro" />
+          </div>
+        </div>
+      </section>
+
+      <section class="clip scene scene-three" data-start="13.9" data-duration="5.55" data-track-index="1">
+        <div class="scene-content dossier-layout">
+          <div class="copy-block">
+            <p class="eyebrow">Checklist</p>
+            <h2>Les bons documents, sans bruit.</h2>
+          </div>
+          <div class="screen-frame dossier-frame">
+            <img src="assets/03-dossier-wide.png" alt="Nouvelle checklist de dossier Locataire Pro" />
+          </div>
+          <div class="feature-row">
+            <span>Belgique + France</span>
+            <span>Multi-documents</span>
+            <span>Zéro stockage</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="clip scene scene-four" data-start="18.45" data-duration="5.55" data-track-index="2">
+        <div class="ambient line line-c"></div>
+        <div class="scene-content final-layout">
+          <div class="header-logo final-header">
+            <img src="assets/logo-dark-final.svg" alt="Locataire Pro" />
+          </div>
+          <div class="screen-frame progress-frame">
+            <img src="assets/04-progress-wide.png" alt="Nouvelle progression de dossier Locataire Pro" />
+          </div>
+          <div class="final-copy">
+            <p class="eyebrow">Prêt pour l'envoi</p>
+            <h2>Un PDF propre. Un dossier plus crédible.</h2>
+            <div class="cta">Créer mon dossier</div>
+          </div>
+        </div>
+      </section>
+
+      <style>
+        [data-composition-id="locataire-pro-launch"] {
+          position: relative;
+          width: 1920px;
+          height: 1080px;
+          overflow: hidden;
+          background: #1c1917;
+          color: #fef3e2;
+          font-family: "Inter", "Helvetica Neue", system-ui, sans-serif;
+        }
+
+        .scene {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #1c1917;
+        }
+
+        .scene::before {
+          content: "";
+          position: absolute;
+          inset: -18%;
+          background:
+            radial-gradient(circle at 18% 16%, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0) 28%),
+            radial-gradient(circle at 84% 74%, rgba(254, 243, 226, 0.12), rgba(254, 243, 226, 0) 32%);
+          opacity: 0.95;
+        }
+
+        .scene-content {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .logo-layout {
+          align-items: center;
+          justify-content: center;
+          padding: 72px 96px;
+        }
+
+        .logo-lockup {
+          display: flex;
+          align-items: center;
+          gap: 30px;
+          will-change: transform;
+        }
+
+        .lp-icon {
+          width: 180px;
+          height: 180px;
+          filter: drop-shadow(0 30px 80px rgba(0, 0, 0, 0.34));
+        }
+
+        .wordmark {
+          width: 610px;
+          height: auto;
+        }
+
+        .header-logo {
+          position: absolute;
+          left: 86px;
+          top: 58px;
+          width: 270px;
+          height: auto;
+          z-index: 4;
+        }
+
+        .header-logo img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+
+        .intro-layout {
+          padding: 124px 90px 74px;
+          display: grid;
+          grid-template-columns: 520px 1fr;
+          gap: 56px;
+          align-items: center;
+        }
+
+        .split-layout {
+          padding: 118px 112px 86px;
+          display: grid;
+          grid-template-columns: 520px 1fr;
+          gap: 58px;
+          align-items: center;
+        }
+
+        .dossier-layout {
+          padding: 88px 108px 74px;
+          gap: 28px;
+          justify-content: center;
+        }
+
+        .final-layout {
+          padding: 74px 108px 72px;
+          display: grid;
+          grid-template-columns: 1fr 530px;
+          gap: 54px;
+          align-items: center;
+        }
+
+        .copy-block {
+          min-width: 0;
+        }
+
+        .intro-copy {
+          align-self: center;
+        }
+
+        .eyebrow {
+          margin: 0 0 18px;
+          width: fit-content;
+          border: 1px solid rgba(251, 191, 36, 0.42);
+          border-radius: 999px;
+          padding: 8px 16px;
+          background: rgba(251, 191, 36, 0.14);
+          color: #fbbf24;
+          font-size: 22px;
+          font-weight: 800;
+          line-height: 1;
+        }
+
+        h1,
+        h2 {
+          margin: 0;
+          font-weight: 900;
+          letter-spacing: -0.035em;
+          line-height: 0.95;
+          color: #fef3e2;
+        }
+
+        h1 {
+          max-width: 520px;
+          font-size: 82px;
+        }
+
+        h2 {
+          max-width: 560px;
+          font-size: 76px;
+        }
+
+        .caption {
+          margin: 24px 0 0;
+          max-width: 560px;
+          color: rgba(254, 243, 226, 0.72);
+          font-size: 30px;
+          font-weight: 500;
+          line-height: 1.24;
+        }
+
+        .screen-frame {
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(254, 243, 226, 0.18);
+          border-radius: 34px;
+          background: #2b2622;
+          box-shadow: 0 32px 110px rgba(0, 0, 0, 0.36);
+          will-change: transform;
+        }
+
+        .screen-frame::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          box-shadow: inset 0 0 0 1px rgba(254, 243, 226, 0.08);
+          pointer-events: none;
+        }
+
+        .screen-frame img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          display: block;
+          will-change: transform;
+        }
+
+        .landing-frame {
+          height: 720px;
+          border-radius: 32px;
+        }
+
+        .landing-shot {
+          object-position: center top;
+        }
+
+        .app-frame {
+          height: 740px;
+        }
+
+        .dossier-frame {
+          width: 100%;
+          height: 660px;
+          border-radius: 30px;
+        }
+
+        .progress-frame {
+          height: 700px;
+          grid-row: 1 / span 2;
+        }
+
+        .feature-row {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .feature-row span {
+          border: 1px solid rgba(251, 191, 36, 0.28);
+          border-radius: 999px;
+          padding: 11px 18px;
+          background: rgba(251, 191, 36, 0.12);
+          color: #fef3e2;
+          font-size: 21px;
+          font-weight: 800;
+        }
+
+        .final-header {
+          left: auto;
+          right: 108px;
+          top: 56px;
+        }
+
+        .final-copy {
+          grid-column: 2;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .final-copy .eyebrow {
+          margin-bottom: 0;
+        }
+
+        .cta {
+          width: fit-content;
+          margin-top: 6px;
+          border-radius: 18px;
+          padding: 20px 32px;
+          border: 2px solid #fbbf24;
+          background: #1c1917;
+          color: #fef3e2;
+          font-size: 30px;
+          font-weight: 900;
+          box-shadow: 0 22px 70px rgba(251, 191, 36, 0.24);
+        }
+
+        .ambient {
+          position: absolute;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        .line {
+          width: 560px;
+          height: 2px;
+          background: rgba(251, 191, 36, 0.28);
+          transform-origin: left center;
+        }
+
+        .line-a {
+          top: 118px;
+          right: -110px;
+          transform: rotate(11deg);
+        }
+
+        .line-b {
+          bottom: 130px;
+          left: -120px;
+          transform: rotate(-10deg);
+        }
+
+        .line-c {
+          top: 116px;
+          left: 120px;
+          transform: rotate(10deg);
+        }
+
+        .dot {
+          width: 420px;
+          height: 420px;
+          border-radius: 999px;
+          border: 1px solid rgba(251, 191, 36, 0.26);
+          right: -90px;
+          top: 118px;
+        }
+      </style>
+      <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true, defaults: { duration: 0.55, ease: "power3.out" } });
+
+        tl.set(".scene", { opacity: 0 }, 0);
+        tl.set(".logo-scene", { opacity: 1 }, 0);
+        tl.set(".wordmark", { opacity: 0, x: 90 }, 0);
+        tl.set(".intro-logo", { x: 0, y: 0, scale: 1 }, 0);
+
+        tl.from(".lp-icon", { opacity: 0, scale: 0.86, y: 18, duration: 0.78, ease: "power2.out" }, 0.24);
+        tl.to(".intro-logo", { x: -190, duration: 0.8, ease: "power2.inOut" }, 1.16);
+        tl.to(".wordmark", { opacity: 1, x: 0, duration: 0.82, ease: "expo.out" }, 1.52);
+        tl.to(".intro-logo", { x: -690, y: -430, scale: 0.36, duration: 0.92, ease: "power3.inOut" }, 2.64);
+
+        tl.set(".scene-one", { opacity: 1, y: 180 }, 4);
+        tl.to(".scene-one", { y: 0, duration: 1.1, ease: "power2.out" }, 4);
+        tl.from(".scene-one .header-logo", { y: -26, opacity: 0, duration: 0.58, ease: "power2.out" }, 4.56);
+        tl.from(".scene-one .eyebrow", { y: 32, opacity: 0, scale: 0.96, duration: 0.52, ease: "back.out(1.5)" }, 4.82);
+        tl.from(".scene-one h1", { y: 68, opacity: 0, duration: 0.74, ease: "expo.out" }, 5.08);
+        tl.from(".scene-one .caption", { y: 38, opacity: 0, duration: 0.62, ease: "power2.out" }, 5.56);
+        tl.from(".landing-frame", { y: 104, rotation: -0.4, opacity: 0, scale: 0.97, duration: 1.02, ease: "power3.out" }, 5.92);
+        tl.to(".landing-frame", { y: -28, duration: 3.05, ease: "sine.inOut" }, 7.0);
+        tl.to(".landing-shot", { y: -34, duration: 3.05, ease: "sine.inOut" }, 7.0);
+        tl.from(".line-a", { scaleX: 0, opacity: 0, duration: 0.7, ease: "circ.out" }, 4.88);
+        tl.from(".line-b", { scaleX: 0, opacity: 0, duration: 0.7, ease: "sine.out" }, 5.4);
+
+        tl.set(".scene-two", { opacity: 0, y: 220 }, 9.75);
+        tl.to(".scene-two", { opacity: 1, y: 0, duration: 1.18, ease: "power2.out" }, 9.75);
+        tl.from(".scene-two .eyebrow", { y: 34, opacity: 0, duration: 0.5, ease: "back.out(1.6)" }, 10.58);
+        tl.from(".scene-two h2", { y: 58, opacity: 0, duration: 0.72, ease: "expo.out" }, 10.84);
+        tl.from(".scene-two .caption", { y: 32, opacity: 0, duration: 0.6, ease: "power2.out" }, 11.3);
+        tl.from(".scene-two .app-frame", { y: 108, scale: 0.97, opacity: 0, duration: 1.0, ease: "power3.out" }, 11.66);
+        tl.to(".scene-two .app-frame", { y: -22, duration: 2.05, ease: "sine.inOut" }, 12.8);
+        tl.from(".dot-a", { scale: 0.66, opacity: 0, duration: 0.86, ease: "sine.out" }, 10.48);
+
+        tl.set(".scene-three", { opacity: 0, y: 220 }, 13.9);
+        tl.to(".scene-three", { opacity: 1, y: 0, duration: 1.18, ease: "power2.out" }, 13.9);
+        tl.from(".scene-three .eyebrow", { y: 28, opacity: 0, scale: 0.95, duration: 0.5, ease: "back.out(1.45)" }, 14.72);
+        tl.from(".scene-three h2", { y: 54, opacity: 0, duration: 0.72, ease: "expo.out" }, 15.0);
+        tl.from(".dossier-frame", { y: 104, opacity: 0, scale: 0.97, duration: 1.0, ease: "power3.out" }, 15.5);
+        tl.to(".dossier-frame", { y: -26, duration: 2.05, ease: "sine.inOut" }, 16.65);
+        tl.from(".feature-row span", { y: 28, opacity: 0, scale: 0.94, stagger: 0.11, duration: 0.42, ease: "circ.out" }, 16.24);
+
+        tl.set(".scene-four", { opacity: 0, y: 220 }, 18.45);
+        tl.to(".scene-four", { opacity: 1, y: 0, duration: 1.18, ease: "power2.out" }, 18.45);
+        tl.from(".final-header", { y: -22, opacity: 0, duration: 0.5, ease: "power2.out" }, 19.3);
+        tl.from(".progress-frame", { y: 104, scale: 0.97, opacity: 0, duration: 1.0, ease: "power3.out" }, 19.56);
+        tl.to(".progress-frame", { y: -18, duration: 1.75, ease: "sine.inOut" }, 20.72);
+        tl.from(".final-copy .eyebrow", { y: 30, opacity: 0, duration: 0.5, ease: "back.out(1.6)" }, 20.3);
+        tl.from(".final-copy h2", { y: 52, opacity: 0, duration: 0.72, ease: "expo.out" }, 20.56);
+        tl.from(".cta", { y: 34, scale: 0.9, opacity: 0, duration: 0.58, ease: "back.out(1.8)" }, 21.24);
+        tl.from(".line-c", { scaleX: 0, opacity: 0, duration: 0.62, ease: "sine.out" }, 19.42);
+        tl.to(".final-layout", { opacity: 0, duration: 0.65, ease: "sine.inOut" }, 23.35);
+
+        window.__timelines["locataire-pro-launch"] = tl;
+      </script>
+    </div>
+  </body>
+</html>
