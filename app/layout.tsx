@@ -12,7 +12,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Locataire Pro',
   description: 'Constituez votre dossier de location en quelques minutes.',
-  icons: { icon: '/favicon.svg' },
+  icons: { icon: './favicon.svg' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
