@@ -1,9 +1,14 @@
 import type { NextConfig } from 'next'
+
+const isProd = process.env.NODE_ENV === 'production'
+const basePath = isProd ? '/locataire-pro' : ''
+
 const nextConfig: NextConfig = {
+  output: 'export',
+  basePath,
+  assetPrefix: basePath,
   images: {
-    dangerouslyAllowSVG: true,
-    contentDispositionType: 'attachment',
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    unoptimized: true,
   },
 }
 export default nextConfig
