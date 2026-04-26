@@ -7,7 +7,7 @@ export default function Navbar() {
     <nav className={styles.nav}>
       <div className={styles.inner}>
         <Image
-          src="/logo-light.svg"
+          src="./logo-light.svg"
           alt="Locataire Pro"
           width={220}
           height={28}

@@ -8,7 +8,7 @@ export default function LandingFooter() {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <Image
-          src="/logo-dark.svg"
+          src="./logo-dark.svg"
           alt="Locataire Pro"
           width={180}
           height={22}
